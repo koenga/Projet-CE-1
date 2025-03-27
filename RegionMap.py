@@ -59,7 +59,7 @@ class RegionMap():
                 
                 self.importance_map[x, y] = self.importance_map_b[x, y] + self.importance_map_s[x, y]
 
-    def load_stored_dynamical_importance_map(self, folder):
+    def load_stored_dynamical_importance_map(self, folder): # WILL BE USED 
         
         path = os.getcwd() + folder
         

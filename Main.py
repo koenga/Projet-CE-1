@@ -9,7 +9,7 @@ from datetime import datetime
 
 if __name__ == '__main__':
 
-    N_episodes = 300
+    N_episodes = 300 
     ep_len     = 5
     
     buffer_size = 6000
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     
     ep_curr = 0 
     
-    T = int(N_episodes * ep_len)
+    T = int(N_episodes * ep_len)  # DUREE TOTALE DE L'ANALYSE ??????
 
     list_of_importance_metric = []
     list_of_patrol_metric     = []

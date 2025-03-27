@@ -131,9 +131,9 @@ class Monitoring_Fleet():
         
         for drone in self.list_of_drones:
             
-            importance_metric += np.sum(np.array(drone.list_of_visited_importance))
+            importance_metric += np.sum(np.array(drone.list_of_visited_importance)) # SUM OF THE IMPORTANCE OF THE VISITED ZONES
             
-        patrol_metric = 1.0 -  np.sum(np.sum(self.visit_matrix))/self.x_size/self.y_size
+        patrol_metric = 1.0 -  np.sum(np.sum(self.visit_matrix))/self.x_size/self.y_size # PERCENTAGE YOU HAVE TO VISIT
         
         return importance_metric, patrol_metric, reward_metric
 
