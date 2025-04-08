@@ -62,7 +62,7 @@ if __name__ == '__main__':
     
     ep_curr = 0 
     
-    T = int(N_episodes * ep_len)  # DUREE TOTALE DE L'ANALYSE ??????
+    T = int(N_episodes * ep_len)  # total number of steps chosen for the simulation
 
     list_of_importance_metric = []
     list_of_patrol_metric     = []
