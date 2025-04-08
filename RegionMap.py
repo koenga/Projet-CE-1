@@ -182,7 +182,7 @@ class RegionMap():
         return tensor
     
     
-    def getMaxTimestep(self id):
+    def getMaxTimestep(self, id):
         listNumberTimestep = []
         for i in self.listFileNumbers:
             df_id = self.charger_fichier(i)[id]
