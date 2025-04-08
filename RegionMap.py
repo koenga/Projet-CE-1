@@ -29,7 +29,7 @@ class RegionMap():
        self.not_obstacles_mask = np.ones((self.x_size, self.y_size))
        self.list_of_obstacles  = []
     
-    def initialize_importance_map(self):
+    def initialize_importance_map(self): 
         
         small_amplitude = 0.5
         small_sigma     = 1.0
@@ -58,8 +58,16 @@ class RegionMap():
                 if self.importance_map_b[x, y] > 1.0: self.importance_map_b[x, y] = 1.0
                 
                 self.importance_map[x, y] = self.importance_map_b[x, y] + self.importance_map_s[x, y]
+    
+    def initialize_better_importance_map(self, id, listFileNumbers):
+        
+        listAllTensor3D, listAddedTimesteps = createAllTensor3D(listFileNumbers, id)
+        mean_tensor3D = averageAllTensor(listAllTensor3D, listAddedTimesteps)
 
-    def load_stored_dynamical_importance_map(self, folder): # WILL BE USED 
+        self.importance_map = mean_tensor3D
+
+
+    def load_stored_dynamical_importance_map(self, folder): # WILL BE USED, without normalisation ?
         
         path = os.getcwd() + folder
         
