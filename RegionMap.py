@@ -7,7 +7,7 @@ import pickle
 
 class RegionMap():
     
-    def __init__(self, v_size, h_size, list_of_small_pertb, list_of_big_pert, timestep, df_link = None, link = None):
+    def __init__(self, v_size, h_size, list_of_small_pertb, list_of_big_pert, timestep, df_link, link, listFileNumbers):
         
         self.y_size = h_size
         self.x_size = v_size
@@ -15,6 +15,7 @@ class RegionMap():
         self.timestep = timestep
         self.df_link = df_link
         self.link = link
+        self.listFileNumbers = listFileNumbers
         
         epsilon_init = 0.000001
         
@@ -181,9 +182,9 @@ class RegionMap():
         return tensor
     
     
-    def getMaxTimestep(self, listFileNumbers, id):
+    def getMaxTimestep(self id):
         listNumberTimestep = []
-        for i in listFileNumbers:
+        for i in self.listFileNumbers:
             df_id = self.charger_fichier(i)[id]
             list_timestep = df_id.index.astype(str).tolist()
             listNumberTimestep.append(len(list_timestep))
@@ -193,7 +194,7 @@ class RegionMap():
 
     def createTensor3D(self,id,pklidx):
         n_rows, n_cols = self.y_size, self.x_size
-        maxTimestep = self.maxTimestep
+        maxTimestep = self.getMaxTimestep(self, id)
         list_timestep = self.getdf_id(id,pklidx).index.astype(str).tolist()
         listTensor = []
         for i in list_timestep:
@@ -326,7 +327,8 @@ class RegionMap():
                 
                 self.importance_map[x, y] = self.importance_map_b[x, y] + self.importance_map_s[x, y]
     
-    def initialize_better_importance_map(self, id, listFileNumbers):
+    def initialize_better_importance_map(self, id):
+        listFileNumbers = self.listFileNumbers
         
         listAllTensor3D, listAddedTimesteps = self.createAllTensor3D(listFileNumbers, id)
         mean_tensor3D = self.averageAllTensor(listAllTensor3D, listAddedTimesteps)
