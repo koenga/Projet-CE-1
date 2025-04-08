@@ -93,9 +93,6 @@ class RegionMap():
         # Appliquer l'assignation de grille à chaque point
         df_pos['grid_cell'] = df_pos.apply(lambda row: assign_to_grid(row['c_x'], row['c_y']), axis=1)
 
-        # Afficher le DataFrame résultant dans la console
-        print(df_pos)
-
         self.df_pos = df_pos
 
     def visualizeGrid(self):
