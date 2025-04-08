@@ -273,7 +273,7 @@ class Drone():
     
     def update_drone(self, observation, move_action):
         
-        if move_action == - np.infty:
+        if move_action == - np.inf:
             
             self.x = self.x
             self.y = self.y
