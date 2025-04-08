@@ -194,7 +194,7 @@ class RegionMap():
 
     def createTensor3D(self,id,pklidx):
         n_rows, n_cols = self.y_size, self.x_size
-        maxTimestep = self.getMaxTimestep(self, id)
+        maxTimestep = self.getMaxTimestep(id)
         list_timestep = self.getdf_id(id,pklidx).index.astype(str).tolist()
         listTensor = []
         for i in list_timestep:
