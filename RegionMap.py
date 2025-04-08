@@ -328,8 +328,8 @@ class RegionMap():
     
     def initialize_better_importance_map(self, id, listFileNumbers):
         
-        listAllTensor3D, listAddedTimesteps = createAllTensor3D(listFileNumbers, id)
-        mean_tensor3D = averageAllTensor(listAllTensor3D, listAddedTimesteps)
+        listAllTensor3D, listAddedTimesteps = self.createAllTensor3D(listFileNumbers, id)
+        mean_tensor3D = self.averageAllTensor(listAllTensor3D, listAddedTimesteps)
 
         self.importance_map = mean_tensor3D
 
