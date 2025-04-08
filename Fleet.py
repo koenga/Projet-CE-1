@@ -706,8 +706,8 @@ class Monitoring_Fleet():
                 
                 feasible_actions = drone.feasible_actions(self.Map)
     
-                q_value_max = - np.infty
-                idx_max = - np.infty
+                q_value_max = - np.inf
+                idx_max = - np.inf
                 
                 for idx_q, q_value in enumerate(q_values):
                     
@@ -759,8 +759,8 @@ class Monitoring_Fleet():
                 
                 feasible_actions = drone.feasible_actions(self.Map)
     
-                q_value_max = - np.infty
-                idx_max = - np.infty
+                q_value_max = - np.inf
+                idx_max = - np.inf
                 
                 for idx_q, q_value in enumerate(q_values):
                     
