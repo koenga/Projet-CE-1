@@ -58,7 +58,6 @@ class RegionMap():
     def gridTensor(self):
 
         df_pos = self.df_link[['id', 'c_x', 'c_y']].copy()
-        self.df_pos = df_pos
 
         # Définition du nombre de lignes et colonnes de la grille
         n_rows, n_cols = self.y_size, self.x_size
@@ -96,6 +95,8 @@ class RegionMap():
 
         # Afficher le DataFrame résultant dans la console
         print(df_pos)
+
+        self.df_pos = df_pos
 
     def visualizeGrid(self):
         n_rows, n_cols = self.y_size, self.x_size
