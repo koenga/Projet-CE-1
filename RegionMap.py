@@ -3,31 +3,298 @@ import numpy as np
 import os 
 from datetime import datetime
 import matplotlib.pyplot as plt
+import pickle
 
 class RegionMap():
     
-    def __init__(self, v_size, h_size, list_of_small_pertb, list_of_big_pert):
+    def __init__(self, v_size, h_size, list_of_small_pertb, list_of_big_pert, timestep, df_link = None, link = None):
         
-       self.y_size = h_size
-       self.x_size = v_size
-       
-       epsilon_init = 0.000001
-       
-       self.importance_map_s = epsilon_init * np.ones((self.x_size, self.y_size))
-       self.importance_map_b = epsilon_init * np.ones((self.x_size, self.y_size))
-       
-       self.importance_map = np.zeros((self.x_size, self.y_size))
-       
-       self.list_of_small_pertb = list_of_small_pertb
-       self.list_of_big_pert    = list_of_big_pert
-       
-       #----- Real map params -----
-       
-       self.prestored = False
-       self.prestored_dynamical_importance_map = None
-       
-       self.not_obstacles_mask = np.ones((self.x_size, self.y_size))
-       self.list_of_obstacles  = []
+        self.y_size = h_size
+        self.x_size = v_size
+
+        self.timestep = timestep
+        self.df_link = df_link
+        self.link = link
+        
+        epsilon_init = 0.000001
+        
+        self.importance_map_s = epsilon_init * np.ones((self.x_size, self.y_size))
+        self.importance_map_b = epsilon_init * np.ones((self.x_size, self.y_size))
+        
+        self.importance_map = np.zeros((self.x_size, self.y_size))
+        
+        self.list_of_small_pertb = list_of_small_pertb
+        self.list_of_big_pert    = list_of_big_pert
+        
+        #----- Real map params -----
+        
+        self.prestored = False
+        self.prestored_dynamical_importance_map = None
+        
+        self.not_obstacles_mask = np.ones((self.x_size, self.y_size))
+        self.list_of_obstacles  = []
+
+
+    def charger_fichier(self, numero):
+        """Charge un fichier .pkl en fonction de son numéro"""
+        
+        # Construire le nom du fichier avec le bon format
+        nom_fichier = f"agg_timeseries_{numero}.pkl"
+        chemin_fichier = os.path.join(self.link, nom_fichier)
+        
+        # Vérifier si le fichier existe
+        if not os.path.exists(chemin_fichier):
+            print(f"❌ Fichier {nom_fichier} non trouvé !")
+            return None
+
+        # Charger le fichier pickle
+        with open(chemin_fichier, "rb") as f:
+            data = pickle.load(f)
+        
+        #print(f"✅ Fichier {nom_fichier} chargé avec succès !")
+        return data  # Retourne le contenu du fichier
+
+    def gridTensor(self):
+
+        df_pos = self.df_link[['id', 'c_x', 'c_y']].copy()
+        self.df_pos = df_pos
+
+        # Définition du nombre de lignes et colonnes de la grille
+        n_rows, n_cols = self.y_size, self.x_size
+
+        # Déterminer les bornes des points
+        xmin1, ymin1 = df_pos[['c_x', 'c_y']].min()
+        xmax1, ymax1 = df_pos[['c_x', 'c_y']].max()
+
+        # Ajuster les bordures
+        xmin = xmin1 - 0.05*(xmax1-xmin1)
+        xmax = xmax1 + 0.05*(xmax1-xmin1)
+
+        ymin = ymin1 - 0.05*(ymax1-ymin1)
+        ymax = ymax1 + 0.05*(ymax1-ymin1)
+
+        self.xmin = xmin
+        self.xmax = xmax
+        self.ymin = ymin
+        self.ymax = ymax
+        
+        # Calculer la taille des cellules de la grille
+        cell_width = (xmax - xmin) / n_cols
+        cell_height = (ymax - ymin) / n_rows
+
+        # Fonction pour obtenir l'indice de grille d'un point
+        def assign_to_grid(x, y):
+            col = int((x - xmin) / cell_width)
+            row = int((ymax - y) / cell_height)  # Inversion pour que 0 soit en haut
+            col = min(col, n_cols - 1)  # S'assurer que les indices restent dans la grille
+            row = min(row, n_rows - 1)
+            return (row, col)
+
+        # Appliquer l'assignation de grille à chaque point
+        df_pos['grid_cell'] = df_pos.apply(lambda row: assign_to_grid(row['c_x'], row['c_y']), axis=1)
+
+        # Afficher le DataFrame résultant dans la console
+        print(df_pos)
+
+    def visualizeGrid(self):
+        n_rows, n_cols = self.y_size, self.x_size
+        # Visualisation
+        xmin = self.xmin
+        xmax = self.xmax
+        ymin = self.ymin
+        ymax = self.ymax
+        df_pos = self.df_pos
+        
+        cell_width = (xmax - xmin) / n_cols
+        cell_height = (ymax - ymin) / n_rows
+        fig, ax = plt.subplots(figsize=(6,6))
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+
+        # Dessiner la grille
+        for i in range(1, n_cols):
+            ax.axvline(xmin + i * cell_width, color='gray', linestyle='--')
+        for i in range(1, n_rows):
+            ax.axhline(ymin + i * cell_height, color='gray', linestyle='--')
+
+        # Afficher les points avec leur ID et leur cellule
+        for _, row in df_pos.iterrows():
+            ax.scatter(row['c_x'], row['c_y'], color='hotpink')
+            #ax.text(row['c_x'], row['c_y'], f"{row['id']}", fontsize=8, verticalalignment='bottom')
+
+        plt.show()
+
+    def getdf_id(self, id, pklidx):
+
+        # Dossier où se trouvent les fichiers
+        dossier = self.link
+        
+        # Construire le nom du fichier avec le bon format
+        nom_fichier = f"agg_timeseries_{pklidx}.pkl"
+        chemin_fichier = os.path.join(dossier, nom_fichier)
+
+        # Vérifier si le fichier existe
+        if not os.path.exists(chemin_fichier):
+            print(f"❌ Fichier {nom_fichier} non trouvé !")
+            return None
+
+        # Charger le fichier pickle
+        with open(chemin_fichier, "rb") as f:
+            data = pickle.load(f)
+
+        if id == 'ld_speed':
+            self.df_id = data[id]
+        else:
+            df_copy = data[id].copy()
+            for column in data[id].columns.values:
+                num_lanes = self.df_link[self.df_link['id'] == column]['num_lanes'].values
+                length = self.df_link[self.df_link['id'] == column]['length'].values
+                df_copy[column] = data[id][column]/(num_lanes*length)
+            self.df_id = df_copy
+
+        return self.df_id
+
+    def createMatrix(self, timestep, id): # df = df_pos
+        df_id = self.df_id
+        df = self.df_pos
+        n_rows, n_cols = self.y_size, self.x_size
+
+        tensor = np.zeros((n_rows, n_cols))
+
+        for i in range(n_rows):
+            for j in range(n_cols):
+                somme = 0
+                target_cell = (i,j)
+                ids_in_cell = df[df['grid_cell'] == target_cell]['id'].tolist()
+                for idx in ids_in_cell:
+                    somme+= df_id.loc[timestep, idx]
+                if id == 'ld_speed':
+                    if len(ids_in_cell) == 0:
+                        tensor[i,j] = 0 
+                    else: 
+                        tensor[i,j] = somme/len(ids_in_cell)
+                else: 
+                    if len(ids_in_cell) == 0:
+                        tensor[i,j] = 0 
+                    else: 
+                        tensor[i,j] = somme
+        return tensor
+    
+    
+    def getMaxTimestep(self, listFileNumbers, id):
+        listNumberTimestep = []
+        for i in listFileNumbers:
+            df_id = self.charger_fichier(i)[id]
+            list_timestep = df_id.index.astype(str).tolist()
+            listNumberTimestep.append(len(list_timestep))
+        self.maxTimestep = max(listNumberTimestep)
+
+        return max(listNumberTimestep)
+
+    def createTensor3D(self,id,pklidx):
+        n_rows, n_cols = self.y_size, self.x_size
+        maxTimestep = self.maxTimestep
+        list_timestep = self.getdf_id(id,pklidx).index.astype(str).tolist()
+        listTensor = []
+        for i in list_timestep:
+            tensor = self.createMatrix(i, id)
+            listTensor.append(tensor)
+        
+        if len(listTensor) < maxTimestep:
+            addedTimesteps = maxTimestep - len(listTensor)
+
+            zero_matrix = np.zeros((n_rows, n_cols))  # Matrice remplie de zéros
+            listTensor.extend([zero_matrix] * addedTimesteps)  # Ajoût de matrices nulles 
+        else:
+            addedTimesteps = 0
+
+        tensor3D = np.stack(listTensor, axis = 0)
+
+        return tensor3D, addedTimesteps
+    
+    def createAllTensor3D(self, listFileNumbers, id):
+        listAllTensor3D = []
+        listAddedTimesteps = []
+
+        for i in listFileNumbers:
+            df_id = self.charger_fichier(i)[id]
+            list_timestep = df_id.index.astype(str).tolist()
+            tensor3D, addedTimesteps = self.createTensor3D(id,i)
+            listAllTensor3D.append(tensor3D) 
+            listAddedTimesteps.append(addedTimesteps) 
+
+        return listAllTensor3D, listAddedTimesteps
+    
+    def averageAllTensor(self, listAllTensor3D, listAddedTimesteps):
+        # sommer tous les tenseurs pour obtenir un tenseur de forme (maxTimestep, n_rows, n_cols)
+        sum_array = np.sum(np.stack(listAllTensor3D), axis=0)
+        mean_array = np.zeros(sum_array.shape)
+        # liste qui contient le nombre de timestep ne contenant pas de zeros pour chaque pickle file
+        tracking = np.ones(len(listAddedTimesteps))*(sum_array.shape[0]) - listAddedTimesteps
+
+        for i in range(sum_array.shape[0]):
+            array = sum_array[i,:,:]
+            # on divise seulement par le nombre d'entrée de la liste qui sont positifs
+            mean_array[i,:,:] = array/sum(x > 0 for x in tracking)
+            tracking -= 1
+
+        return mean_array
+    
+        # Fonction pour visualiser la grille avec une heatmap
+    def visualize_grid_with_heatmap(self, tensor3D, n_timestep):
+        
+        vmax = np.max(tensor3D)
+        vmin = np.min(tensor3D)
+
+        n_rows, n_cols = self.y_size, self.x_size
+        xmin, xmax = self.xmin, self.xmax
+        ymin, ymax = self.ymin, self.ymax
+        df = self.df_pos
+
+        # Calculer la taille des cellules de la grille
+        cell_width = (xmax - xmin) / n_cols
+        cell_height = (ymax - ymin) / n_rows
+        
+        # Affichage de la heatmap avec échelle fixe
+        for i in range(n_timestep):
+            
+            fig, ax = plt.subplots(figsize=(8, 8))
+            im = ax.imshow(tensor3D[i,:,:], cmap='Reds', interpolation='nearest', origin='upper', 
+                        extent=[xmin, xmax, ymin, ymax], vmin=vmin, vmax=vmax)
+
+            # Ajouter la barre de couleur
+            cbar = plt.colorbar(im, ax=ax)
+            cbar.set_label("Valeur du tensor (e.g., vitesse moyenne)")
+
+            # Dessiner la grille
+            for i in range(1, n_cols):
+                ax.axvline(xmin + i * cell_width, color='gray', linestyle='--', linewidth=0.5)
+            for i in range(1, n_rows):
+                ax.axhline(ymin + i * cell_height, color='gray', linestyle='--', linewidth=0.5)
+
+            # Afficher les points
+            for _, row in df.iterrows():
+                ax.scatter(row['c_x'], row['c_y'], color='black', s=10)
+
+            # Supprimer les graduations et labels des axes
+            ax.set_xticks([])
+            ax.set_yticks([])
+            ax.set_xticklabels([])
+            ax.set_yticklabels([])
+            plt.title("Grille avec Heatmap des valeurs du tensor")
+            plt.show()
+
+
+    def NormalizeTensor(self, tensor):
+
+        maxValues = np.max(tensor, axis=(1,2))
+        maxValues[maxValues == 0] = 1  # Remplace les valeurs nulles par 1
+        maxValuesReshaped = maxValues[:, np.newaxis, np.newaxis]
+        
+        normalizedTensor = tensor / maxValuesReshaped
+
+        return normalizedTensor
+
     
     def initialize_importance_map(self): 
         
