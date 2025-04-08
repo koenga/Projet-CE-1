@@ -158,7 +158,7 @@ class RegionMap():
 
     def createMatrix(self, timestep, id): # df = df_pos
         df_id = self.df_id
-        self.df_pos = self.gridTensor()
+        self.gridTensor()
         df = self.df_pos
         n_rows, n_cols = self.y_size, self.x_size
 
