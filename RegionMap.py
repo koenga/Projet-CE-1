@@ -447,7 +447,7 @@ class RegionMap():
         
         elif self.our_importance_map:
 
-            return self.importance_map[t, x, y]
+            return self.importance_map[t, y, x] # bizarre
         
         else:
         
