@@ -159,7 +159,7 @@ class RegionMap():
         df = self.df_pos
         n_rows, n_cols = self.y_size, self.x_size
 
-        tensor = np.zeros((n_rows, n_cols))
+        tensor = np.zeros((n_cols, n_rows))
 
         for i in range(n_rows):
             for j in range(n_cols):
