@@ -332,7 +332,7 @@ class RegionMap():
         listAllTensor3D, listAddedTimesteps = self.createAllTensor3D(listFileNumbers, id)
         mean_tensor3D = self.averageAllTensor(listAllTensor3D, listAddedTimesteps)
         nomralized_tensor3D = self.NormalizeTensor(mean_tensor3D)
-        self.importance_map = nomralized_tensor3D
+        self.importance_map = nomralized_tensor3D[31,:,:]
 
 
     def load_stored_dynamical_importance_map(self, folder): # WILL BE USED, without normalisation ?

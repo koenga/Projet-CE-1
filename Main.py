@@ -44,7 +44,7 @@ if __name__ == '__main__':
     alpha = 1e-3
  
     pretrained_folder = None     
-    pretrained_folder = "/Results/11_20_2024_02_14_49_pretraining/Saved_models/policy_network_49999.pt"
+    # pretrained_folder = "/Results/11_20_2024_02_14_49_pretraining/Saved_models/policy_network_49999.pt"
  
     F = Monitoring_Fleet(Map, buffer_size, state_shape, pretrained_folder, True, num_stacked, alpha)
     F.add_drones(drone_init_pos)    
@@ -103,7 +103,7 @@ if __name__ == '__main__':
             #------------- MOVE -------------------------------------------------------------------------------------
             
             if t_curr > ep_len:
-                list_of_actions = F.move_drones_LSTM  (list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+                list_of_actions = F.move_drones_LSTM(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
                 
             else:
                 list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
