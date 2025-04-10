@@ -29,11 +29,11 @@ if __name__ == '__main__':
     listFileNumbers = ['000']
     id = 'ld_speed'
 
-    # Map = RegionMap(y_size, x_size, [], [], 1, df_link = df_link, link = link, listFileNumbers=listFileNumbers)
-    # Map.initialize_better_importance_map(id)
+    Map = RegionMap(y_size, x_size, [], [], 1, df_link = df_link, link = link, listFileNumbers=listFileNumbers)
+    Map.initialize_better_importance_map(id)
     
-    Map = RegionMap(y_size, x_size, list_of_small_pertb, list_of_big_pert, timestep=None, df_link=None, link=None, listFileNumbers=None)
-    Map.initialize_importance_map()
+    # Map = RegionMap(y_size, x_size, list_of_small_pertb, list_of_big_pert, timestep=None, df_link=None, link=None, listFileNumbers=None)
+    # Map.initialize_importance_map()
     
     # ----- Create a fleet -----
     
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     alpha = 1e-3
  
     pretrained_folder = None     
-    # pretrained_folder = "/Results/11_20_2024_02_14_49_pretraining/Saved_models/policy_network_49999.pt"
+    pretrained_folder = "/Results/11_20_2024_02_14_49_pretraining/Saved_models/policy_network_49999.pt"
  
     F = Monitoring_Fleet(Map, buffer_size, state_shape, pretrained_folder, True, num_stacked, alpha)
     F.add_drones(drone_init_pos)    
