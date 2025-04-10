@@ -14,7 +14,7 @@ if __name__ == '__main__':
     buffer_size = 6000
     batch_size = 32
 
-    mode = 'greedy'
+    mode = 'random'
     
     # ----- Create a map -----
     
