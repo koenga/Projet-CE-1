@@ -58,6 +58,8 @@ class Drone():
         for given_x, given_y in adjacent_nodes:
             
             if 0 <= given_x <= Map.x_size-1 and 0 <= given_y <= Map.y_size-1:
+
+                print("Went in the if in D.info_adjacent_nodes")
                 
                 m = Map.dynamic_importance(t, given_x, given_y, T)
 
