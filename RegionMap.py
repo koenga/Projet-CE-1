@@ -60,7 +60,7 @@ class RegionMap():
         df_pos = self.df_link[['id', 'c_x', 'c_y']].copy()
 
         # Définition du nombre de lignes et colonnes de la grille
-        n_rows, n_cols = self.y_size, self.x_size
+        n_rows, n_cols = self.x_size, self.y_size
 
         # Déterminer les bornes des points
         xmin1, ymin1 = df_pos[['c_x', 'c_y']].min()
@@ -96,7 +96,7 @@ class RegionMap():
         self.df_pos = df_pos
 
     def visualizeGrid(self):
-        n_rows, n_cols = self.y_size, self.x_size
+        n_rows, n_cols = self.x_size, self.y_size
         # Visualisation
         xmin = self.xmin
         xmax = self.xmax
@@ -157,7 +157,7 @@ class RegionMap():
         df_id = self.df_id
         self.gridTensor()
         df = self.df_pos
-        n_rows, n_cols = self.y_size, self.x_size
+        n_rows, n_cols = self.x_size, self.y_size
 
         tensor = np.zeros((n_rows, n_cols))
 
@@ -192,7 +192,7 @@ class RegionMap():
         return max(listNumberTimestep)
 
     def createTensor3D(self,id,pklidx):
-        n_rows, n_cols = self.y_size, self.x_size
+        n_rows, n_cols = self.x_size, self.x_size
         maxTimestep = self.getMaxTimestep(id)
         list_timestep = self.getdf_id(id,pklidx).index.astype(str).tolist()
         listTensor = []
@@ -246,7 +246,7 @@ class RegionMap():
         vmax = np.max(tensor3D)
         vmin = np.min(tensor3D)
 
-        n_rows, n_cols = self.y_size, self.x_size
+        n_rows, n_cols = self.x_size, self.y_size
         xmin, xmax = self.xmin, self.xmax
         ymin, ymax = self.ymin, self.ymax
         df = self.df_pos
@@ -447,7 +447,7 @@ class RegionMap():
         
         elif self.our_importance_map:
 
-            return self.importance_map[t, y, x] # bizarre
+            return self.importance_map[t, x, y]
         
         else:
         
