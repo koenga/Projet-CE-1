@@ -14,7 +14,7 @@ if __name__ == '__main__':
     buffer_size = 6000
     batch_size = 32
 
-    mode = 'random'
+    mode = None
     
     # ----- Create a map -----
     
@@ -102,8 +102,14 @@ if __name__ == '__main__':
             #------------- MOVE -------------------------------------------------------------------------------------
             if mode == 'random':
                 list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
-            if mode == 'greedy':
+            elif mode == 'greedy':
                 list_of_actions = F.move_drones_greedy(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+            else:
+                if t_curr > ep_len:
+                    list_of_actions = F.move_drones_LSTM(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+                
+                else:
+                    list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
             #--------------------------------------------------------------------------------------------------------------------
             
             F.update_drone_action_history(list_of_actions)

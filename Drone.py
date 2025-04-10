@@ -114,7 +114,7 @@ class Drone():
         
         adjacent_temporal_importance_values = observation["temporal_importance_values"]
         
-        feasible_actions       = []
+        feasible_actions = []
         
         for i in range(len(adjacent_temporal_importance_values)):
             

@@ -654,7 +654,7 @@ class Monitoring_Fleet():
         for idx, drone in enumerate(self.list_of_drones):
             
             d_observation = list_of_observations[idx]
-            d_action      = drone.choose_action(d_observation, agent_type='random')
+            d_action = drone.choose_action(d_observation, agent_type='random')
             list_of_actions.append(d_action)
             drone.update_drone(d_observation, d_action)
             
@@ -669,7 +669,7 @@ class Monitoring_Fleet():
         for idx, drone in enumerate(self.list_of_drones):
             
             d_observation = list_of_observations[idx]
-            d_action      = drone.choose_action(d_observation, agent_type='greedy')
+            d_action = drone.choose_action(d_observation, agent_type='greedy')
             list_of_actions.append(d_action)
             drone.update_drone(d_observation, d_action)
                     
