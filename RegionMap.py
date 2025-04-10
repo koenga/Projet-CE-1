@@ -334,6 +334,8 @@ class RegionMap():
         nomralized_tensor3D = self.NormalizeTensor(mean_tensor3D)
         self.importance_map = nomralized_tensor3D[31,:,:]
 
+        self.our_importance_map = True
+
 
     def load_stored_dynamical_importance_map(self, folder): # WILL BE USED, without normalisation ?
         
@@ -442,6 +444,10 @@ class RegionMap():
         if self.prestored:
             
             return self.prestored_dynamical_importance_map[t, x, y]
+        
+        elif self.our_importance_map:
+
+            return self.importance_map[t, x, y]
         
         else:
         
