@@ -112,7 +112,7 @@ class Monitoring_Fleet():
 
     def get_masked_dynamic_map(self, t, T):
         
-        current_map = self.Map.get_dynamic_map(t, T)
+        current_map = self.Map.get_dynamic_map(t, T) # aled peut etre
         
         for x in range(self.x_size):
             for y in range(self.y_size):
