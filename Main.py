@@ -29,11 +29,11 @@ if __name__ == '__main__':
     listFileNumbers = ['000']
     id = 'ld_speed'
 
-    Map = RegionMap(y_size, x_size, [], [], 1, df_link = df_link, link = link, listFileNumbers=listFileNumbers)
-    Map.initialize_better_importance_map(id)
+    # Map = RegionMap(y_size, x_size, [], [], 1, df_link = df_link, link = link, listFileNumbers=listFileNumbers)
+    # Map.initialize_better_importance_map(id)
     
-    # Map = RegionMap(x_size, y_size, list_of_small_pertb, list_of_big_pert)
-    # Map.initialize_importance_map()
+    Map = RegionMap(x_size, y_size, list_of_small_pertb, list_of_big_pert)
+    Map.initialize_importance_map()
     
     # ----- Create a fleet -----
     
