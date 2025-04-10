@@ -78,6 +78,7 @@ if __name__ == '__main__':
         
         print('Episode: ',ep_curr)
         
+        
         ep_step = 0
         
         while ep_step < ep_len:          

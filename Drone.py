@@ -65,6 +65,9 @@ class Drone():
 
                 temporal_importance_values.append(m * visit_mask[given_x, given_y] * Map.not_obstacles_mask[given_x, given_y])
                 real_temporal_importance_values.append(m)
+                print(f"Value of m: {m}")
+                print(f"Visit Mask at the given position: {visit_mask[given_x, given_y]}")
+                print(Map.not_obstacles_mask[given_x, given_y])
                 
             else:
                 
