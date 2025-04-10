@@ -6,6 +6,7 @@ from Fleet import Monitoring_Fleet
 import numpy as np
 import os 
 from datetime import datetime
+import pandas as pd
 
 if __name__ == '__main__':
 
@@ -22,9 +23,16 @@ if __name__ == '__main__':
     
     list_of_small_pertb = [[0,4], [13,5], [17,25]]
     list_of_big_pert = [[4,22],[13,15]]
+
+    link = r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg"
+    df_link = pd.read_csv(r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg\metadata\link_bboxes_clustered.csv")
+    listFileNumbers = ['000']
+
+    map = RegionMap(20, 15, [], [], 1, df_link = df_link, link = link, listFileNumbers=listFileNumbers)
+    map.initialize_better_importance_map(id)
     
-    Map = RegionMap(x_size, y_size, list_of_small_pertb, list_of_big_pert)
-    Map.initialize_importance_map()
+    # Map = RegionMap(x_size, y_size, list_of_small_pertb, list_of_big_pert)
+    # Map.initialize_importance_map()
     
     # ----- Create a fleet -----
     
