@@ -14,7 +14,7 @@ if __name__ == '__main__':
     buffer_size = 6000
     batch_size = 32
 
-    mode = None
+    mode = 'random'
     
     # ----- Create a map -----
     
@@ -45,6 +45,7 @@ if __name__ == '__main__':
  
     F = Monitoring_Fleet(Map, buffer_size, state_shape, pretrained_folder, True, num_stacked, alpha)
     F.add_drones(drone_init_pos) 
+    print(F.list_of_drones[0].list_of_move_actions)
 
     #----- Create save folder paths -----
     
