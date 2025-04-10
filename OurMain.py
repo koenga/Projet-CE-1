@@ -94,6 +94,8 @@ if __name__ == '__main__':
                 list_of_observations, list_of_drone_positions = F.get_fleet_info(t_curr, T)
                 list_of_drone_states = F.get_drone_states(list_of_observations, list_of_drone_positions)
                 visit_matrix = F.visit_matrix
+
+                print(list_of_observations)
                 
                 F.update_drone_state_history(list_of_drone_states)                   
                 
