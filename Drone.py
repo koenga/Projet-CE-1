@@ -58,16 +58,11 @@ class Drone():
         for given_x, given_y in adjacent_nodes:
             
             if 0 <= given_x <= Map.x_size-1 and 0 <= given_y <= Map.y_size-1:
-
-                print("Went in the if in D.info_adjacent_nodes")
                 
                 m = Map.dynamic_importance(t, given_x, given_y, T)
 
                 temporal_importance_values.append(m * visit_mask[given_x, given_y] * Map.not_obstacles_mask[given_x, given_y])
                 real_temporal_importance_values.append(m)
-                print(f"Value of m: {m}")
-                print(f"Visit Mask at the given position: {visit_mask[given_x, given_y]}")
-                print(Map.not_obstacles_mask[given_x, given_y])
                 
             else:
                 
