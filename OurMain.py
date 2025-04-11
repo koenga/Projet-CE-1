@@ -87,7 +87,7 @@ if __name__ == '__main__':
             
             print('Time | ep_step: ', t_curr, ep_step)
             
-            if t_curr % 50 == 0:
+            if t_curr % 1 == 0:
                 F.plot_fleets_trajectories(t_curr, T, masked=True)
             
             if t_curr == 0:
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                 list_of_drone_states = F.get_drone_states(list_of_observations, list_of_drone_positions)
                 visit_matrix = F.visit_matrix
 
-                print(list_of_observations)
+                #print(list_of_observations)
                 
                 F.update_drone_state_history(list_of_drone_states)                   
                 
