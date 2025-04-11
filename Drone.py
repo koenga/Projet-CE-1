@@ -119,11 +119,12 @@ class Drone():
         for i in range(len(adjacent_temporal_importance_values)):
             
             ativ   = adjacent_temporal_importance_values[i]
+            print(ativ)
             print(f"List move actions: {self.list_of_move_actions}")
             action = self.list_of_move_actions[i]
             
             if not ativ == 0.0:
-                
+                print(f"added an action: {action}")
                 feasible_actions.append(action)
         
         if self.stay_counter == self.max_stay:
@@ -131,7 +132,7 @@ class Drone():
             self.stay_counter = 0
             
             feasible_actions = [action for action in feasible_actions if action!=4]
-            
+        print(f"Feasible actions: {feasible_actions}")
         move_action = random.choice(feasible_actions)
         if move_action == 4:
             self.stay_counter += 1
