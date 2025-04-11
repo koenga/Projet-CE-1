@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     # ----- Create a fleet -----
     
-    drone_init_pos = [[3,3], [3,26], [16, 3], [16,26]]
+    drone_init_pos = [[5,7], [3,26], [10, 3], [10,26]]
 
     state_shape    = [ep_len, 13]    
     num_stacked = 2    
