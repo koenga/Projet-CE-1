@@ -119,24 +119,18 @@ class Drone():
         for i in range(len(adjacent_temporal_importance_values)):
             
             ativ   = adjacent_temporal_importance_values[i]
+            print(f"List move actions: {self.list_of_move_actions}")
             action = self.list_of_move_actions[i]
-
-            print(f"Action: {action} in random_agent_choose_action")
             
             if not ativ == 0.0:
-                print("Went in if not ativ == 0 in random_agent_choose_action")
                 
                 feasible_actions.append(action)
         
         if self.stay_counter == self.max_stay:
-
-            print("Went in the if in random_agent_choose_action")
             
             self.stay_counter = 0
             
             feasible_actions = [action for action in feasible_actions if action!=4]
-
-        print(f"list of feasible action (random_agent_choose_action): {feasible_actions}")
             
         move_action = random.choice(feasible_actions)
         if move_action == 4:
