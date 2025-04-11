@@ -27,7 +27,7 @@ if __name__ == '__main__':
     link = r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg"
     df_link = pd.read_csv(r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg\metadata\link_bboxes_clustered.csv")
     listFileNumbers = ['000']
-    id = 'ld_speed'
+    id = 'pred_vdist'
 
     Map = RegionMap(y_size, x_size, [], [], 1, df_link = df_link, link = link, listFileNumbers=listFileNumbers)
     Map.initialize_better_importance_map(id)
