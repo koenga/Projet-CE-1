@@ -76,80 +76,71 @@ if __name__ == '__main__':
     list_of_reward_metric     = []
     
     while t_curr < T:
+    
+        # ------------------------------------------------------------------------------------------
         
-        print('Episode: ',ep_curr)
+        if t_curr % 1 == 0:
+            F.plot_fleets_trajectories(t_curr, T, masked=True)
         
+        if t_curr == 0:
         
-        ep_step = 0
-        
-        while ep_step < ep_len:          
-        
-            # ------------------------------------------------------------------------------------------
-            
-            print('Time | ep_step: ', t_curr, ep_step)
-            
-            if t_curr % 1 == 0:
-                F.plot_fleets_trajectories(t_curr, T, masked=True)
-            
-            if t_curr == 0:
-            
-                list_of_observations, list_of_drone_positions = F.get_fleet_info(t_curr, T)
-                list_of_drone_states = F.get_drone_states(list_of_observations, list_of_drone_positions)
-                visit_matrix = F.visit_matrix
+            list_of_observations, list_of_drone_positions = F.get_fleet_info(t_curr, T)
+            list_of_drone_states = F.get_drone_states(list_of_observations, list_of_drone_positions)
+            visit_matrix = F.visit_matrix
 
-                #print(list_of_observations)
-                
-                F.update_drone_state_history(list_of_drone_states)                   
-                
-            #------------- MOVE -------------------------------------------------------------------------------------
-            if mode == 'random':
-                list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
-            elif mode == 'greedy':
-                list_of_actions = F.move_drones_greedy(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+            #print(list_of_observations)
+            
+            F.update_drone_state_history(list_of_drone_states)                   
+            
+        #------------- MOVE -------------------------------------------------------------------------------------
+        if mode == 'random':
+            list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+        elif mode == 'greedy':
+            list_of_actions = F.move_drones_greedy(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+        else:
+            if t_curr > ep_len:
+                list_of_actions = F.move_drones_LSTM(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+            
             else:
-                if t_curr > ep_len:
-                    list_of_actions = F.move_drones_LSTM(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
-                
-                else:
-                    list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
-            #--------------------------------------------------------------------------------------------------------------------
-            
-            F.update_drone_action_history(list_of_actions)
-            
-            list_of_observations_, list_of_drone_positions_ = F.get_fleet_info(t_curr+1, T)
-            list_of_drone_states_ = F.get_drone_states(list_of_observations_, list_of_drone_positions_)
-            visit_matrix_ = F.visit_matrix
-            
-            F.update_drone_state_history(list_of_drone_states_)
-            
-            #----- Reward calculation -----
+                list_of_actions = F.move_drones_random(list_of_drone_states, list_of_observations, discount_param=0.1, recover_param=0.025)
+        #--------------------------------------------------------------------------------------------------------------------
         
-            list_of_rewards = F.get_reward(list_of_observations, list_of_observations_, visit_matrix, visit_matrix_, alpha1=1.0, alpha2=0.5)
-            
-            F.update_drone_reward_history(list_of_rewards)
-            
-            #----- Collect metrics -----
+        F.update_drone_action_history(list_of_actions)
         
-            importance_metric, patrol_metric, reward_metric = F.get_metrics(list_of_rewards)
+        list_of_observations_, list_of_drone_positions_ = F.get_fleet_info(t_curr+1, T)
+        list_of_drone_states_ = F.get_drone_states(list_of_observations_, list_of_drone_positions_)
+        visit_matrix_ = F.visit_matrix
         
-            list_of_importance_metric.append(importance_metric)
-            list_of_patrol_metric.append(patrol_metric)
-            list_of_reward_metric.append(reward_metric)  
-            
-            #----- Re-assign states for next iteration -----
+        F.update_drone_state_history(list_of_drone_states_)
         
-            list_of_observations    = list_of_observations_
-            list_of_drone_positions = list_of_drone_positions_
-            list_of_drone_states    = list_of_drone_states_
+        #----- Reward calculation -----
+    
+        list_of_rewards = F.get_reward(list_of_observations, list_of_observations_, visit_matrix, visit_matrix_, alpha1=1.0, alpha2=0.5)
         
-            t_curr  += 1 
-            ep_step +=1
+        F.update_drone_reward_history(list_of_rewards)
+        
+        #----- Collect metrics -----
+    
+        importance_metric, patrol_metric, reward_metric = F.get_metrics(list_of_rewards)
+    
+        list_of_importance_metric.append(importance_metric)
+        list_of_patrol_metric.append(patrol_metric)
+        list_of_reward_metric.append(reward_metric)  
+        
+        #----- Re-assign states for next iteration -----
+    
+        list_of_observations    = list_of_observations_
+        list_of_drone_positions = list_of_drone_positions_
+        list_of_drone_states    = list_of_drone_states_
+    
+        t_curr  += 1 
+        ep_step +=1
 
-        #----- Store transitions in the buffer -----
-            
-        ep_curr += 1
+    #----- Store transitions in the buffer -----
         
-        print("-----------")
+    ep_curr += 1
+    
+    print("-----------")
     
     F.create_data_set()
     
