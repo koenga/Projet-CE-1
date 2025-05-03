@@ -8,6 +8,7 @@ from Buffer import ReplayBuffer
 from Neural_net import *
 
 from LSTM_net import *
+from GRU_net import *
 
 import torch
 import random
@@ -40,12 +41,17 @@ class Monitoring_Fleet():
         
         self.buffer = ReplayBuffer(buffer_size, state_shape)
         
-        self.lstm = lstm
+        self.lstm = None #lstm
+        self.gru = True
         
         if lstm:
 
             self.policy_network = LSTM_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)
             self.target_network = LSTM_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)            
+        
+        elif self.gru:
+            self.policy_network = GRU_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)
+            self.target_network = GRU_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)            
         
         else:
         
@@ -547,6 +553,11 @@ class Monitoring_Fleet():
 
             self.policy_network = LSTM_model(input_size=self.state_shape[1], hidden_size=self.state_shape[1], num_stacked_layers=n_lstm, alpha=lr)
             self.target_network = LSTM_model(input_size=self.state_shape[1], hidden_size=self.state_shape[1], num_stacked_layers=n_lstm, alpha=lr)
+
+        elif self.gru:
+            
+            self.policy_network = GRU_model(input_size=self.state_shape[1], hidden_size=self.state_shape[1], num_stacked_layers=n_lstm, alpha=lr)
+            self.target_network = GRU_model(input_size=self.state_shape[1], hidden_size=self.state_shape[1], num_stacked_layers=n_lstm, alpha=lr)            
             
         else:
             
