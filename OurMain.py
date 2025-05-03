@@ -24,8 +24,10 @@ if __name__ == '__main__':
     list_of_small_pertb = [[0,4], [13,5], [17,25]]
     list_of_big_pert = [[4,22],[13,15]]
 
-    link = r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg"
-    df_link = pd.read_csv(r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg\metadata\link_bboxes_clustered.csv")
+    #link = r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg"
+    link = r"C:\Users\orane\Documents\EPFL\GC\Master\MA2\Projet LUTS\all_agg\datasets\simbarca\all_agg"
+    #df_link = pd.read_csv(r"D:\EPFL\MA2\Projet\Code\Data\datasets\simbarca\all_agg\metadata\link_bboxes_clustered.csv")
+    df_link = pd.read_csv(r"C:\Users\orane\Documents\EPFL\GC\Master\MA2\Projet LUTS\all_agg\datasets\simbarca\all_agg\metadata\link_bboxes_clustered.csv")
     listFileNumbers = ['000']
     id = 'pred_vdist'
 
