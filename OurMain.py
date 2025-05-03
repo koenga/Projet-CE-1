@@ -67,6 +67,7 @@ if __name__ == '__main__':
     t_curr = 0
     
     ep_curr = 0 
+    ep_step = 0
 
     ep_len = 0
     
