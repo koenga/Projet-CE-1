@@ -14,7 +14,7 @@ if __name__ == '__main__':
     buffer_size = 6000
     batch_size = 32
 
-    mode = 'random'
+    mode = 'greedy'
     
     # ----- Create a map -----
     
@@ -67,6 +67,8 @@ if __name__ == '__main__':
     t_curr = 0
     
     ep_curr = 0 
+
+    ep_len = 0
     
     T = Map.importance_map.shape[0]
     print(T) # total number of steps chosen for the simulation
