@@ -287,7 +287,7 @@ class RegionMap():
 
     def NormalizeTensor(self, tensor):
 
-        maxValues = np.max(tensor, axis=(1,2))
+        maxValues = tensor.max(axis=(1, 2))
         maxValues[maxValues == 0] = 1  # Remplace les valeurs nulles par 1
         maxValuesReshaped = maxValues[:, np.newaxis, np.newaxis]
         
