@@ -68,13 +68,14 @@ if __name__ == '__main__':
     
     ep_curr = 0 
     
-    T = int(N_episodes * ep_len)  # total number of steps chosen for the simulation
+    T = Map.importance_map.shape[0]
+    print(T) # total number of steps chosen for the simulation
 
     list_of_importance_metric = []
     list_of_patrol_metric     = []
     list_of_reward_metric     = []
     
-    while ep_curr < N_episodes:
+    while t_curr < T:
         
         print('Episode: ',ep_curr)
         
