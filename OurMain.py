@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     ep_len = 0
     
-    T = Map.importance_map.shape[0]
+    T = Map.importance_map.shape[0] -1
     print(T) # total number of steps chosen for the simulation
 
     list_of_importance_metric = []
