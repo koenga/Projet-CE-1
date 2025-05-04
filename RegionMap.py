@@ -372,6 +372,26 @@ class RegionMap():
         name = path + '/' + filename                       
         
         np.save(name, self.importance_map)
+    
+
+    def write_map_file(self, filename=None, t=None):
+
+        path = os.path.join(os.getcwd(), 'Map_configurations')
+        if not os.path.isdir(path):
+            os.makedirs(path)
+
+        if filename is None:
+            now = datetime.now()
+            date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+            filename = f"{date_time}_t{t}_map.npy"
+        else:
+            filename = f"{filename}_t{t}_map.npy"
+
+        # Chemin complet
+        name = os.path.join(path, filename)
+
+        np.save(name, self.importance_map)
+
 
     def load_from_file(self, filename):
 
