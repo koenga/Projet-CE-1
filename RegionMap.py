@@ -192,7 +192,7 @@ class RegionMap():
         return max(listNumberTimestep)
 
     def createTensor3D(self,id,pklidx):
-        n_rows, n_cols = self.x_size, self.x_size
+        n_rows, n_cols = self.x_size, self.y_size
         maxTimestep = self.getMaxTimestep(id)
         list_timestep = self.getdf_id(id,pklidx).index.astype(str).tolist()
         listTensor = []
