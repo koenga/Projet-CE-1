@@ -376,7 +376,7 @@ class RegionMap():
 
     def write_map_file(self, filename=None, id=None):
 
-        path = os.path.join(os.getcwd(), 'Map_configurations', id)
+        path = os.path.join(os.getcwd(), 'Map_configurations')
         os.makedirs(path, exist_ok=True)
 
         if id is not None:
