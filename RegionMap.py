@@ -374,15 +374,13 @@ class RegionMap():
         np.save(name, self.importance_map)
     
 
-    def write_map_file(self, filename=None, t=None, id=None):
+    def write_map_file(self, filename=None, id=None):
 
-        subfolder = filename if filename is not None else 'default'
-
-        path = os.path.join(os.getcwd(), 'Map_configurations', id, subfolder)
+        path = os.path.join(os.getcwd(), 'Map_configurations', id)
         os.makedirs(path, exist_ok=True)
 
-        if t is not None:
-            filename = f"t{t}_map.npy"
+        if id is not None:
+            filename = f"t{id}_map.npy"
         else:
             now = datetime.now()
             date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
