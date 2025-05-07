@@ -437,7 +437,7 @@ class Monitoring_Fleet():
         list_of_losses_current = []
         
         for ep in range(n_epochs):
-            
+            # Q(s,a) (prediction of Q value for taken actions) 
             state_action_values = self.policy_network(state_batch).gather(1, action_batch)
 
             with torch.no_grad():
