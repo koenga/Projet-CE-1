@@ -7,7 +7,7 @@ import pickle
 
 class RegionMap():
     
-    def __init__(self, v_size, h_size, list_of_small_pertb, list_of_big_pert, timestep, df_link, link, listFileNumbers):
+    def __init__(self, v_size, h_size, list_of_small_pertb, list_of_big_pert, timestep, df_link, link, listFileNumbers, load = False):
         
         self.y_size = v_size
         self.x_size = h_size
@@ -327,15 +327,20 @@ class RegionMap():
                 self.importance_map[x, y] = self.importance_map_b[x, y] + self.importance_map_s[x, y]
     
     def initialize_better_importance_map(self, id):
-        listFileNumbers = self.listFileNumbers
-        
-        listAllTensor3D, listAddedTimesteps = self.createAllTensor3D(listFileNumbers, id)
-        mean_tensor3D = self.averageAllTensor(listAllTensor3D, listAddedTimesteps)
-        nomralized_tensor3D = self.NormalizeTensor(mean_tensor3D)
-        self.importance_map = nomralized_tensor3D + 1e-6
+        if self.load == True:
+            filename = f"{id}_map.npy"
+            self.importance_map = self.load_from_file(self, filename)
 
-        self.our_importance_map = True
+        else:
 
+            listFileNumbers = self.listFileNumbers
+            
+            listAllTensor3D, listAddedTimesteps = self.createAllTensor3D(listFileNumbers, id)
+            mean_tensor3D = self.averageAllTensor(listAllTensor3D, listAddedTimesteps)
+            nomralized_tensor3D = self.NormalizeTensor(mean_tensor3D)
+            self.importance_map = nomralized_tensor3D + 1e-6
+
+            self.our_importance_map = True
 
     def load_stored_dynamical_importance_map(self, folder): # WILL BE USED, without normalisation ?
         
@@ -382,7 +387,7 @@ class RegionMap():
         data = np.load(file_path)
         imp_map = np.array(data, dtype=np.float32)
 
-        self.v_size = np.shape(imp_map)[0]
+        self.v_size = np.shape(imp_map)[2] # ou peut être que c'est 1 je sais pas
         self.h_size = np.shape(imp_map)[1]
         
         self.importance_map = imp_map
