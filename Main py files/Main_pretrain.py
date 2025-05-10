@@ -36,7 +36,7 @@ if __name__ == '__main__':
     
     pretrained_folder = None    
  
-    F = Monitoring_Fleet(Map, buffer_size, state_shape, pretrained_folder, True, num_stacked, alpha)
+    F = Monitoring_Fleet(Map, buffer_size, state_shape, pretrained_folder, gru = True, num_stacked = num_stacked, alpha = alpha) 
     F.add_drones(drone_init_pos)    
     
     #----- Create save folder paths -----
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     now = datetime.now()
     date_time = now.strftime("%m_%d_%Y_%H_%M_%S")    
     
-    current_results = save_folder + "/" + date_time + "_pretraining"
+    current_results = save_folder + "/" + date_time + "_pretraining_GRU"
     if not os.path.exists(current_results):
         os.makedirs(current_results)    
     
@@ -62,6 +62,11 @@ if __name__ == '__main__':
     #F.pretrain(current_results, N_iter=100000, load_data=load_data_link, plot_pretrained=True)
     
     #----- Simulation Continue training -----
+
+    # to train GRU
+    pretrained_folder = None
+    F.continue_training(current_results, lr=1e-4, n_lstm=2, N_iter=20000, load_data=load_data_link, pretrained_folder=pretrained_folder)
     
-    F.continue_training(current_results, lr=1e-4, n_lstm=2, N_iter=20000, load_data=load_data_link, pretrained_folder="/Results/11_20_2024_02_14_49_pretraining/Saved_models/policy_network_49999.pt", plot_pretrained=True)    
+    # pretrained_folder= "/Results/11_20_2024_02_14_49_pretraining/Saved_models/policy_network_49999.pt"
+    # F.continue_training(current_results, lr=1e-4, n_lstm=2, N_iter=20000, load_data=load_data_link, pretrained_folder=pretrained_folder, plot_pretrained=True)    
      

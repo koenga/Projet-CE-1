@@ -332,6 +332,7 @@ class RegionMap():
         if self.load == True:
             filename = f"{id}_map.npy"
             self.load_from_file(filename)
+            self.our_importance_map = True
 
         else:
 
@@ -392,7 +393,7 @@ class RegionMap():
         self.v_size = np.shape(imp_map)[2] # ou peut être que c'est 1 je sais pas
         self.h_size = np.shape(imp_map)[1]
         
-        self.our_importance_map = imp_map
+        self.importance_map = imp_map
 
     def plot_map(self, rmap_values=True, t=None):
 

@@ -32,7 +32,7 @@ class GRU_model(nn.Module):
         self.drop4 = nn.Dropout(0.5)
         
         self.fc5   = nn.Linear(64, 5)  # Dernière couche sans activation
-        self.act5  = nn.ReLU()  # Optionnel, à adapter selon la tâche
+        self.act5  = nn.ReLU()  # peut etre sans
 
         #----- Optimiseur & Scheduler -----
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
@@ -67,7 +67,7 @@ class GRU_model(nn.Module):
     def save_checkpoint(self, iteration, ckpt_file_name):
         if not os.path.isdir(ckpt_file_name):
             os.makedirs(ckpt_file_name)
-        T.save(self.state_dict(), ckpt_file_name + '/policy_network_' + str(iteration) + '.pt')
+        T.save(self.state_dict(), ckpt_file_name + '/policy_network_GRU' + str(iteration) + '.pt')
 
     def load_checkpoint(self, ckpt_file_name):
         self.load_state_dict(T.load(ckpt_file_name, map_location=T.device('cpu')))
