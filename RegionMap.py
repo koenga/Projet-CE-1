@@ -12,6 +12,8 @@ class RegionMap():
         self.y_size = v_size
         self.x_size = h_size
 
+        self.load = load
+
         self.timestep = timestep
         self.df_link = df_link
         self.link = link
