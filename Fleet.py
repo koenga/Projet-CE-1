@@ -15,7 +15,7 @@ import random
 
 class Monitoring_Fleet():
     
-    def __init__(self, Map, buffer_size=None, state_shape=None, pretrained_folder=None, lstm=True, num_stacked=2, alpha=1e-4):
+    def __init__(self, Map, buffer_size=None, state_shape=None, pretrained_folder=None, lstm=False, gru=True, num_stacked=2, alpha=1e-4):
         
         self.N = 0
         self.list_of_drones = []
@@ -41,15 +41,15 @@ class Monitoring_Fleet():
         
         self.buffer = ReplayBuffer(buffer_size, state_shape)
         
-        self.lstm = None #lstm
-        self.gru = True
+        self.lstm = lstm
+        self.gru = gru
         
         if lstm:
 
             self.policy_network = LSTM_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)
             self.target_network = LSTM_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)            
         
-        elif self.gru:
+        elif gru:
             self.policy_network = GRU_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)
             self.target_network = GRU_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)            
         

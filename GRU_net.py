@@ -32,7 +32,7 @@ class GRU_model(nn.Module):
         self.drop4 = nn.Dropout(0.5)
         
         self.fc5   = nn.Linear(64, 5)  # Dernière couche sans activation
-        self.act5  = nn.ReLU()  # Optionnel, à adapter selon la tâche
+        # self.act5  = nn.ReLU()  # Optionnel, à adapter selon la tâche
 
         #----- Optimiseur & Scheduler -----
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
