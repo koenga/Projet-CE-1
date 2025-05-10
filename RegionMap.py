@@ -331,7 +331,7 @@ class RegionMap():
     def initialize_better_importance_map(self, id):
         if self.load == True:
             filename = f"{id}_map.npy"
-            self.importance_map = self.load_from_file(self, filename)
+            self.importance_map = self.load_from_file(filename)
 
         else:
 
