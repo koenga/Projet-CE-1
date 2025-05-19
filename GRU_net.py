@@ -5,7 +5,7 @@ import torch.optim as optim
 
 class GRU_model(nn.Module):
     
-    def __init__(self, input_size=11, hidden_size=64, num_stacked_layers=2, alpha=0.001):
+    def __init__(self, input_size=11, hidden_size=128, num_stacked_layers=2, alpha=0.001):
         super(GRU_model, self).__init__()
         
         #----- GRU -----
