@@ -5,7 +5,7 @@ import torch.optim as optim
 
 class GRU_model(nn.Module):
     
-    def __init__(self, input_size=11, hidden_size=256, num_stacked_layers=2, alpha=0.001):
+    def __init__(self, input_size=11, hidden_size=128, num_stacked_layers=3, alpha=0.001):
         super(GRU_model, self).__init__()
         
         #----- GRU -----
@@ -17,19 +17,19 @@ class GRU_model(nn.Module):
         #----- Fully connected part -----
         self.fc1   = nn.Linear(hidden_size, 2048)
         self.act1  = nn.ReLU()
-        self.drop1 = nn.Dropout(0.5)
+        self.drop1 = nn.Dropout(0.3)
         
         self.fc2   = nn.Linear(2048, 1024)
         self.act2  = nn.ReLU()
-        self.drop2 = nn.Dropout(0.5)
+        self.drop2 = nn.Dropout(0.3)
         
         self.fc3   = nn.Linear(1024, 256)
         self.act3  = nn.ReLU()
-        self.drop3 = nn.Dropout(0.5)
+        self.drop3 = nn.Dropout(0.3)
         
         self.fc4   = nn.Linear(256, 64)
         self.act4  = nn.ReLU()
-        self.drop4 = nn.Dropout(0.5)
+        self.drop4 = nn.Dropout(0.3)
         
         self.fc5   = nn.Linear(64, 5)  # Dernière couche sans activation
         self.act5  = nn.ReLU()  # peut etre sans
