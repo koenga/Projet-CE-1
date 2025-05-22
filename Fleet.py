@@ -536,7 +536,7 @@ class Monitoring_Fleet():
         np.save(ckpt_file_name + "/log_average_score.npy", np.array(self.log_average_score))
         np.save(ckpt_file_name + "/log_avg_losses.npy"   , np.array(self.log_avg_losses))
         
-    def continue_training(self, ckpt_file_name, lr=1e-4, n_lstm=2, hiden_size = 64, dropout = 0.5, N_iter=3000, load_data='/Results/06_19_2024_20_28_04', pretrained_folder="/Results/06_20_2024_01_31_10_pretraining/Saved_models/policy_network_29999.pt", plot_pretrained=True):
+    def continue_training(self, ckpt_file_name, lr=1e-4, n_lstm=2, hidden_size = 64, dropout = 0.5, N_iter=3000, load_data='/Results/06_19_2024_20_28_04', pretrained_folder="/Results/06_20_2024_01_31_10_pretraining/Saved_models/policy_network_29999.pt", plot_pretrained=True):
         
         #----- load_data is the location of the buffer data 
         #----- ckpt_file_name is the name of the folder where we save the results after continued training 
@@ -556,8 +556,8 @@ class Monitoring_Fleet():
 
         elif self.gru:
             
-            self.policy_network = GRU_model(input_size=self.state_shape[1], hidden_size=hiden_size, num_stacked_layers=n_lstm, alpha=lr, dropout=dropout)
-            self.target_network = GRU_model(input_size=self.state_shape[1], hidden_size=hiden_size, num_stacked_layers=n_lstm, alpha=lr, dropout=dropout)            
+            self.policy_network = GRU_model(input_size=self.state_shape[1], hidden_size=hidden_size, num_stacked_layers=n_lstm, alpha=lr, dropout=dropout)
+            self.target_network = GRU_model(input_size=self.state_shape[1], hidden_size=hidden_size, num_stacked_layers=n_lstm, alpha=lr, dropout=dropout)            
             
         else:
             
