@@ -15,7 +15,7 @@ import random
 
 class Monitoring_Fleet():
     
-    def __init__(self, Map, buffer_size=None, state_shape=None, pretrained_folder=None, lstm=False, gru = True, num_stacked=2, alpha=1e-4):
+    def __init__(self, Map, buffer_size=None, state_shape=None, pretrained_folder=None, lstm=False, gru = True, num_stacked=3, alpha=1e-4):
         
         self.N = 0
         self.list_of_drones = []
