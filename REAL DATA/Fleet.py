@@ -536,13 +536,14 @@ class Monitoring_Fleet():
         np.save(ckpt_file_name + "/log_average_score.npy", np.array(self.log_average_score))
         np.save(ckpt_file_name + "/log_avg_losses.npy"   , np.array(self.log_avg_losses))
         
-    def continue_training(self, ckpt_file_name, lr=1e-4, n_lstm=2, N_iter=3000, load_data='/Results/06_19_2024_20_28_04', pretrained_folder="/Results/06_20_2024_01_31_10_pretraining/Saved_models/policy_network_29999.pt", plot_pretrained=True):
+    def continue_training(self, ckpt_file_name, lr=1e-4, n_lstm=2, N_iter=3000, load_data='/Results_/06_19_2024_20_28_04', pretrained_folder="/Results/06_20_2024_01_31_10_pretraining/Saved_models/policy_network_29999.pt", plot_pretrained=True):
         
         #----- load_data is the location of the buffer data 
         #----- ckpt_file_name is the name of the folder where we save the results after continued training 
         #----- pretrained_folder is the folder where the pretrained weights are stored 
         
-        folder = os.getcwd() + load_data
+        #folder = os.getcwd() + load_data
+        folder = r'C:\Users\orane\Documents\GitHub\Projet-CE-1\Results_\11_20_2024_02_07_05'
         self.buffer.load(folder)
         
         ckpt_file_name = ckpt_file_name + '/Saved_models'
