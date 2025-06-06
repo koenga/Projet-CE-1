@@ -99,7 +99,7 @@ class LSTM_model(nn.Module):
         
         #print('... loading checkpoint ...')
         
-        self.load_state_dict(T.load(ckpt_file_name, map_location=T.device('cpu')))  # map_location=torch.device('cpu')  
+        self.load_state_dict(T.load(ckpt_file_name, map_location=T.device('cpu')))  # map_location=torch.device('cpu')
 
         
         
