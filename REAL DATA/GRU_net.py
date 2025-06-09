@@ -70,4 +70,4 @@ class GRU_model(nn.Module):
         T.save(self.state_dict(), ckpt_file_name + '/policy_network_GRU' + str(iteration) + '.pt')
 
     def load_checkpoint(self, ckpt_file_name):
-        self.load_state_dict(T.load(ckpt_file_name, map_location=T.device('cpu')))
+        self.load_state_dict(T.load(ckpt_file_name))
