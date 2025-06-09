@@ -50,8 +50,8 @@ class Monitoring_Fleet():
             self.target_network = LSTM_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)            
         
         elif self.gru:
-            self.policy_network = GRU_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)
-            self.target_network = GRU_model(input_size=state_shape[1], hidden_size=state_shape[1], num_stacked_layers=num_stacked, alpha=self.alpha)            
+            self.policy_network = GRU_model(input_size=state_shape[1], hidden_size=64, num_stacked_layers=num_stacked, alpha=self.alpha)
+            self.target_network = GRU_model(input_size=state_shape[1], hidden_size=64, num_stacked_layers=num_stacked, alpha=self.alpha)            
         
         else:
         
@@ -557,8 +557,8 @@ class Monitoring_Fleet():
 
         elif self.gru:
             
-            self.policy_network = GRU_model(input_size=self.state_shape[1], hidden_size=self.state_shape[1], num_stacked_layers=n_lstm, alpha=lr)
-            self.target_network = GRU_model(input_size=self.state_shape[1], hidden_size=self.state_shape[1], num_stacked_layers=n_lstm, alpha=lr)            
+            self.policy_network = GRU_model(input_size=self.state_shape[1], hidden_size=64, num_stacked_layers=n_lstm, alpha=lr)
+            self.target_network = GRU_model(input_size=self.state_shape[1], hidden_size=64, num_stacked_layers=n_lstm, alpha=lr)            
             
         else:
             
