@@ -635,7 +635,8 @@ class Monitoring_Fleet():
         
             im = ax.imshow(self.Map.get_dynamic_map(t, T), cmap='viridis')
         
-        list_of_markers = ["o", "v", "s", "p", "D", "8", "P", "X", "d", "4"]
+        list_of_markers = ["o", "v", "s", "p", "D", "8", "P", "X", "d", "4", 
+                           "*", "^", "<", ">", "h", "H", "+", "x", "|", "_"]
     
         for idx, drone in enumerate(self.list_of_drones):
             
