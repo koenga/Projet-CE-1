@@ -328,11 +328,16 @@ class RegionMap():
                 
                 self.importance_map[x, y] = self.importance_map_b[x, y] + self.importance_map_s[x, y]
     
-    def initialize_better_importance_map(self, id):
+    def initialize_better_importance_map(self, id, gather_pretrain = False):
         if self.load == True:
-            filename = f"{id}_map.npy"
-            self.load_from_file(filename)
-            self.our_importance_map = True
+            if gather_pretrain:
+                self.load_from_file("pretrain data GRU pred_vdist v2.npy")
+                self.our_importance_map = True
+            else: 
+                filename = f"{id}_map.npy"
+                self.load_from_file(filename)
+                self.our_importance_map = True
+
 
         else:
 
