@@ -333,6 +333,11 @@ class RegionMap():
             filename = f"{id}_map.npy"
             self.load_from_file(filename)
             self.our_importance_map = True
+            self.create_obstacles_map()
+
+            # add a small value so that we never get stuck
+            epsilon = 1e-6
+            self.importance_map += epsilon * self.not_obstacles_mask[np.newaxis, :, :]
 
         else:
 
@@ -341,7 +346,7 @@ class RegionMap():
             listAllTensor3D, listAddedTimesteps = self.createAllTensor3D(listFileNumbers, id)
             mean_tensor3D = self.averageAllTensor(listAllTensor3D, listAddedTimesteps)
             nomralized_tensor3D = self.NormalizeTensor(mean_tensor3D)
-            self.importance_map = nomralized_tensor3D + 1e-6
+            self.importance_map = nomralized_tensor3D + 1e-6 # il est la le batard
 
             self.our_importance_map = True
 
@@ -393,7 +398,7 @@ class RegionMap():
         self.v_size = np.shape(imp_map)[2] # ou peut être que c'est 1 je sais pas
         self.h_size = np.shape(imp_map)[1]
         
-        self.importance_map = imp_map
+        self.importance_map = imp_map - 1e-6
 
     def plot_map(self, rmap_values=True, t=None):
 
@@ -492,7 +497,7 @@ class RegionMap():
         for x in range(self.x_size):
             for y in range(self.y_size):
                 
-                if np.sum(self.prestored_dynamical_importance_map[:,x,y] > 0.0) == 0.0:
+                if np.sum(self.importance_map[:,x,y] > 0.0) == 0.0:
                     
                     obstacle_coords.append([x,y])
                     

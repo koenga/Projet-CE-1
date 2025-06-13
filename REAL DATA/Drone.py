@@ -94,16 +94,16 @@ class Drone():
 
         feasible_actions = [4]
                 
-        if 0 <= given_x - 1:
+        if 0 <= given_x - 1 and Map.not_obstacles_mask[given_x - 1, given_y] == 1:
             feasible_actions.append(0)
             
-        if given_x + 1 <= Map.x_size - 1:
+        if given_x + 1 <= Map.x_size - 1 and Map.not_obstacles_mask[given_x + 1, given_y] == 1:
             feasible_actions.append(1)
             
-        if 0 <= given_y - 1:
+        if 0 <= given_y - 1 and Map.not_obstacles_mask[given_x, given_y - 1] == 1:
             feasible_actions.append(2)
             
-        if given_y + 1 <= Map.y_size - 1:
+        if given_y + 1 <= Map.y_size - 1 and Map.not_obstacles_mask[given_x, given_y + 1] == 1:
             feasible_actions.append(3)
             
         return feasible_actions
