@@ -87,7 +87,7 @@ class Drone():
         
         return observation
     
-    def feasible_actions(self, Map):
+    def feasible_actions(self, Map): # add condition to not go there if this is a place where there are never attention
         
         given_x = self.x
         given_y = self.y

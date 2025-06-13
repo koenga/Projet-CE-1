@@ -485,7 +485,7 @@ class RegionMap():
                 
         return dynamic_importance_map
     
-    def create_obstacles_map(self):
+    def create_obstacles_map(self): # use this fonction to create the mask over the place where you cannot go
         
         obstacle_coords = []
         
