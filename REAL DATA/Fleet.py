@@ -623,7 +623,7 @@ class Monitoring_Fleet():
     
 #----- Plotting functions -----
 
-    def plot_fleets_trajectories(self, t, T, masked=False):
+    def plot_fleets_trajectories(self, t, T, masked=False, save_path = False):
         
         fig, ax = plt.subplots()
         
@@ -653,7 +653,10 @@ class Monitoring_Fleet():
         
         cbar = plt.colorbar(im, ax=ax)
         cbar.set_label("Importance")
-        
+    
+        if save_path:
+            plt.savefig(save_path)
+            
         plt.show()
 
 #----- Different fleet agents -----
