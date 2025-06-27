@@ -513,5 +513,6 @@ class RegionMap():
         for (x, y) in obstacle_coords:
             
             self.not_obstacles_mask[x, y] = 0.0
-    
+
+        self.area_map = self.y_size * self.x_size - len(obstacle_coords)    
 
