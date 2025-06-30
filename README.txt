@@ -1,60 +1,90 @@
-The files are seperated in two big folders:
-- FAKE DATA: contains all the notebooks, python scripts, results and trained model for the synthetic data
-- REAL DATA: same but with the Barcelone map, using the array from Map_configurations
+# Project Overview
 
-First, let's go through FAKE DATA:
+This repository is divided into two main folders:
 
-The are a lot of files that were not touched, so they won't be mentionned here.
+- FAKE DATA: Contains all notebooks, Python scripts, results, and trained models for synthetic data.
+- REAL DATA: Same structure, but applied to the Barcelona map, using arrays from Map_configurations.
 
-1. Fleet.py: The input of the files are modified so that you can choose between GRU and LSTM when choosing the policy.
-             The policy networks are implemented the same way for GRU and LSTM. If you are using GRU, the function used
-             for moving the drones is the same as for LSTM, only the policy used changes.
-             Otherwise, no changes.
+---
 
-2. Main.ipynb: To choose wether you want gru or lstm, you need to change the variable 'mode' to 'gru' or 'lstm'
-               Otherwise it is the same as for the main.py, you gave us.
+## FAKE DATA
 
-3. Main_Gather_Pretrain_Data_GRU.ipynb and Main_Pretrain_GRU.ipynb: Follow the same architecture as the corresponding files
-                                                                    for LSTM, only adapted for the GRU.
+Many files were not modified and are not described here.
 
-4. trajectories GRU.gif and trajectories LSTM.gif are the gifs that are in the report
+1. Fleet.py
 
-Now, let's go through REAL:
+- The input of the file is modified to allow choosing between GRU and LSTM for the policy.
+- Policy networks are implemented identically for both GRU and LSTM.
+- The function used to move the drones is shared across both; only the policy itself differs.
+- No other changes were made to the file.
 
-0. Folder Map_configurations: contains three arrays that the three map (one for each variable) and the pretraining data 
-                              for the GRU in the Map of Barcelona
+2. Main.ipynb
 
-1. Main.ipynb: You have a run() function with the following parameters
-            - link: str, path that should lead to all the pickle files
-            - df_link': str, path used to open the file 'link_bboxes_clustered.csv'
-            - File: list of string that contains the files you want to use to build the region map, in the code it is 
-                    a default value ['000'] because we load the maps from the folder 'Map_configurations'
-            - id: str, type of variable you want in your Map ('pred_vdist', 'pred_vtime' or 'ld_speed')
-            - mode: str, type of agent you want to use ('random', 'greedy', 'lstm' or 'gru')
-            - load: bool, if you want to load stored maps
-            - pretrained_folder: str, path that leads to the pretrained agent
-            - gif: bool, if you want to store the gif or not.
+- To choose between GRU or LSTM, change the variable 'mode' to 'gru' or 'lstm'.
+- Other than that, it behaves the same as the provided main.py.
 
-2. RegionMap.py:
-This file is a bit messy, there are a lot of functions that we used to build the maps, functions to build the synthetic
-map and load functions. Since you have the maps already, we won't guide through the building functions, but if you need
-any information, feel free to send us an email.
-We'll focus on the loading part.
+3. Main_Gather_Pretrain_Data_GRU.ipynb & Main_Pretrain_GRU.ipynb
 
-- initialize_better_importance_map(id, gather_pretrain): If load = True, then it just loads the map corresponding to the 
-                                                         chosen id.
-                                                         If load = False, then it creates a map based on files you want.
-                                                         (listFileNumbers)
-                                                         The gather_pretrain variable is used only if you want to gather 
-                                                         pretrain data, in this case we load the data from the folder Map_configurations:
-                                                         'pretrain data GRU pred_vdist v2.npy' which is all the maps of the
-                                                         differents simulation for the pred_vdist variable before we put them
-                                                         all together into one map.
+- Follow the same architecture as the corresponding LSTM files.
+- Adapted to work with GRU.
 
-3. Main_Gather_Pretrain_Data_GRU and Main_Pretrain_GRU.ipynb: Same as the one in FAKE DATA, only it uses the real data to train this time.
+4. trajectories_GRU.gif & trajectories_LSTM.gif
 
+- These are the animated visualizations included in the report.
 
-4. GIFs files: All the different gifs that are in the report, the name are explicit of what they contain.
-                                                          
+---
 
+## REAL DATA
 
+0. Folder: Map_configurations
+
+- Contains three arrays (one for each variable).
+- Includes pretraining data for GRU on the Barcelona map.
+
+1. Main.ipynb
+
+Defines a run() function with the following parameters:
+
+    run(
+        link: str,                  # Path to all the pickle files
+        df_link: str,               # Path to 'link_bboxes_clustered.csv'
+        File: list[str] = ['000'],  # List of files to build the region map (defaults to loading from Map_configurations)
+        id: str,                    # Type of variable in the map: 'pred_vdist', 'pred_vtime', or 'ld_speed'
+        mode: str,                  # Agent type: 'random', 'greedy', 'lstm', or 'gru'
+        load: bool,                 # Whether to load stored maps
+        pretrained_folder: str,     # Path to the pretrained agent
+        gif: bool                   # Whether to generate and save the gif
+    )
+
+2. RegionMap.py
+
+This file contains a large number of functions used during the map-building process, including both synthetic map creation and data loading utilities. Since the necessary maps are already provided in the repository, we will not detail the map construction functions here. However, if you require any additional information, feel free to reach out by email.
+
+We will instead focus on the map loading functionality:
+
+    initialize_better_importance_map(id, gather_pretrain)
+
+- If load = True:
+    → Loads the precomputed map corresponding to the selected id.
+- If load = False:
+    → Creates a new map using specific files (listFileNumbers).
+- The gather_pretrain flag:
+    → If set to True, the function loads pretraining data from the Map_configurations folder.
+    → Specifically, it loads the file:
+      'pretrain data GRU pred_vdist v2.npy',
+      which aggregates maps from various simulations for the pred_vdist variable into a single dataset used for pretraining.
+
+3. Main_Gather_Pretrain_Data_GRU.ipynb & Main_Pretrain_GRU.ipynb
+
+- These notebooks are structurally identical to their counterparts in the FAKE DATA section, but use real-world data for model training.
+
+4. GIF Files
+
+- This folder contains all the animated visualizations featured in the report.
+- The filenames are descriptive and clearly indicate the content of each GIF.
+
+---
+
+## Contact
+
+If you need any help understanding the code—especially regarding how the maps were built—feel free to reach out via email.
