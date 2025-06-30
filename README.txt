@@ -23,7 +23,7 @@ Many files were not modified and are not described here.
 - To choose between GRU or LSTM, change the variable 'mode' to 'gru' or 'lstm'.
 - Other than that, it behaves the same as the provided main.py.
 
-3. Main_Gather_Pretrain_Data_GRU.ipynb & Main_Pretrain_GRU.ipynb
+3. Main_Pretrain_GRU.ipynb
 
 - Follow the same architecture as the corresponding LSTM files.
 - Adapted to work with GRU.
