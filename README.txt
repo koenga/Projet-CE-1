@@ -87,4 +87,4 @@ We will instead focus on the map loading functionality:
 
 ## Contact
 
-If you need any help understanding the code—especially regarding how the maps were built—feel free to reach out via email.
+If you need any help understanding the code, feel free to reach out via email.
